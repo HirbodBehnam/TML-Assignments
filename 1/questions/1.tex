@@ -16,61 +16,39 @@
     15
     که در آن تمامی حروف را دیده‌ایم. اما این
     \lr{DFA}
-    رسمش بسیار پیچیده می شود! کار دیگری که می توان کرد که تعداد
-    \lr{state}ها
-    را بیشتر می کند این است که ساختاری شبیه درخت داشته باشیم.
-    به شکل زیر توجه کنید:
-    % Used https://madebyevan.com/fsm/
-    \begin{latin}
-        \begin{center}
-            \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
-            \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
-            \node[initial,state,initial text=]    (Q0)         {$q_0$};
-            % First ring
-            \node[state]    (Q1)[right of=Q0]    {$q_1$};
-            \node[state]    (Q2)[below of=Q0]    {$q_2$};
-            \node[state]    (Q3)[left of=Q0]     {$q_3$};
-            \node[state]    (Q4)[above of=Q0]    {$q_4$};
-            % Second ring
-            \node[state]    (Q5)[above right of=Q1] {$q_5$};
-            \node[state]    (Q6)[right of=Q1]       {$q_6$};
-            \node[state]    (Q7)[below right of=Q1] {$q_7$};
-            \node[state]    (Q8)[below right of=Q2] {$q_8$};
-            \node[state]    (Q9)[below of=Q2]       {$q_9$};
-            \node[state]    (Q10)[below left of=Q2] {$q_{10}$};
-            \node[state]    (Q11)[below left of=Q3] {$q_{11}$};
-            \node[state]    (Q12)[left of=Q3]       {$q_{12}$};
-            \node[state]    (Q13)[above left of=Q3] {$q_{13}$};
-            \node[state]    (Q14)[above left of=Q4] {$q_{14}$};
-            \node[state]    (Q15)[above of=Q4]      {$q_{15}$};
-            \node[state]    (Q16)[above right of=Q4] {$q_{16}$};
-            % Third ring
-            \node[state]    (Q17)[above right of=Q5] {$q_{17}$};
-            \node[state]    (Q18)[right of=Q5] {$q_{18}$};
-            \node[state]    (Q19)[above right of=Q6] {$q_{19}$};
-            \node[state]    (Q20)[below right of=Q6] {$q_{20}$};
-            \path
-            % First letter
-            (Q0) edge[above] node{$p$} (Q1)
-            (Q0) edge[left] node{$q$} (Q2)
-            (Q0) edge[bend right, above] node{$r$} (Q3)
-            (Q0) edge[left] node{$s$} (Q4)
-            % Second letters
-            (Q1) edge[above] node{$q$} (Q5)
-            (Q1) edge[above] node{$r$} (Q6)
-            (Q1) edge[above] node{$s$} (Q7)
-            (Q2) edge[left] node{$p$} (Q8)
-            (Q2) edge[left] node{$r$} (Q9)
-            (Q2) edge[left] node{$s$} (Q10)
-            (Q3) edge[above] node{$p$} (Q11)
-            (Q3) edge[above] node{$q$} (Q12)
-            (Q3) edge[above] node{$s$} (Q13)
-            (Q4) edge[left] node{$p$} (Q14)
-            (Q4) edge[left] node{$q$} (Q15)
-            (Q4) edge[left] node{$r$} (Q16);
-            \end{tikzpicture}
-        \end{center}
-    \end{latin}
+    رسمش بسیار پیچیده می شود! برای همین صرفا آنرا تعریف می‌کنیم:
+    \begin{align*}
+        M &= (Q, \Sigma, \delta, q_0, F)\\
+        Q &= \{q_0,q_1,\dots,q_{15}\}\\
+        F &= \{q_0,q_1,\dots,q_{14}\}
+    \end{align*}
+    حال عضو‌های مجموعه‌ی
+    $\delta$
+    را می‌نویسیم:
+    \[
+    \begin{array}{cccc}
+        % Start
+        (q_0, p) \rightarrow q_1 & (q_0, q) \rightarrow q_2 & (q_0, r) \rightarrow q_4 & (q_0, s) \rightarrow q_8\\
+        % First letters
+        (q_1, p) \rightarrow q_1 & (q_1, q) \rightarrow q_3 & (q_1, r) \rightarrow q_5 & (q_1, s) \rightarrow q_9\\
+        (q_2, p) \rightarrow q_3 & (q_2, q) \rightarrow q_2 & (q_2, r) \rightarrow q_6 & (q_2, s) \rightarrow q_{10}\\
+        (q_4, p) \rightarrow q_5 & (q_4, q) \rightarrow q_6 & (q_4, r) \rightarrow q_4 & (q_4, s) \rightarrow q_{12}\\
+        (q_8, p) \rightarrow q_9 & (q_8, q) \rightarrow q_{10} & (q_8, r) \rightarrow q_{12} & (q_8, s) \rightarrow q_{8}\\
+        % Second letters
+        (q_3, p) \rightarrow q_{3} & (q_3, q) \rightarrow q_{3} & (q_3, r) \rightarrow q_{7} & (q_3, s) \rightarrow q_{11}\\
+        (q_5, p) \rightarrow q_{5} & (q_5, q) \rightarrow q_{7} & (q_5, r) \rightarrow q_{5} & (q_5, s) \rightarrow q_{13}\\
+        (q_6, p) \rightarrow q_{7} & (q_6, q) \rightarrow q_{6} & (q_6, r) \rightarrow q_{6} & (q_6, s) \rightarrow q_{14}\\
+        (q_9, p) \rightarrow q_{9} & (q_9, q) \rightarrow q_{11} & (q_9, r) \rightarrow q_{13} & (q_9, s) \rightarrow q_{9}\\
+        (q_{10}, p) \rightarrow q_{11} & (q_{10}, q) \rightarrow q_{10} & (q_{10}, r) \rightarrow q_{14} & (q_{10}, s) \rightarrow q_{10}\\
+        (q_{12}, p) \rightarrow q_{13} & (q_{12}, q) \rightarrow q_{14} & (q_{12}, r) \rightarrow q_{12} & (q_{12}, s) \rightarrow q_{12}\\
+        % Third letters
+        (q_{7}, p) \rightarrow q_{7} & (q_{7}, q) \rightarrow q_{7} & (q_{7}, r) \rightarrow q_{7} & (q_{7}, s) \rightarrow q_{15}\\
+        (q_{11}, p) \rightarrow q_{11} & (q_{11}, q) \rightarrow q_{11} & (q_{11}, r) \rightarrow q_{15} & (q_{11}, s) \rightarrow q_{11}\\
+        (q_{13}, p) \rightarrow q_{13} & (q_{13}, q) \rightarrow q_{15} & (q_{13}, r) \rightarrow q_{13} & (q_{13}, s) \rightarrow q_{13}\\
+        (q_{14}, p) \rightarrow q_{15} & (q_{14}, q) \rightarrow q_{14} & (q_{14}, r) \rightarrow q_{14} & (q_{14}, s) \rightarrow q_{14}\\
+    \end{array}
+    \]
+    \item 
 \end{enumerate}
 
 
