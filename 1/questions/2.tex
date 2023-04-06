@@ -1,4 +1,166 @@
-\smalltitle{هم‌ارزی و کمینه سازی}
+\section{هم‌ارزی و کمینه سازی}
+\subsection{}
+در ابتدا باید
+\lr{starting state}
+این ماشین را پیدا کنیم. بدین منظور کاری که می‌کنیم این است که می‌بینیم که از حالت
+1
+به کمک
+$\epsilon$
+به کدام حالات می‌توان رسید. این حالات عبارتند از
+$\{1,2,5,6\}$.
+حال سعی می‌‌کنیم که از این
+\lr{state}
+شروع کنیم و ببینیم که به ازای
+$a$
+و
+$b$
+از هر
+\lr{state}
+درون هر
+\lr{state}
+به کدام یک از حالات می‌توان رسید.
+\begin{latin}
+    \centering
+    \begin{tabular}{c|cc}
+        & a & b\\
+        \hline
+        $\{1,2,5,6\}$ & $\{1,2,3,5,6\}$ & $\{5,6,7\}$ \\
+        $\{1,2,3,5,6\}$ & $\{1,2,3,5,6\}$ & $\{4,5,6,7\}$ \\
+        $\{5,6,7\}$ & $\{6\}$ & $\{5,6,7\}$ \\
+        $\{4,5,6,7\}$ & $\{6\}$ & $\{2,5,6,7\}$ \\
+        $\{6\}$ & - & $\{7\}$ \\
+        $\{2,5,6,7\}$ & $\{3,6\}$ & $\{5,6,7\}$ \\
+        $\{7\}$ & $\{6\}$ & - \\
+        $\{3,6\}$ & - & $\{4,7\}$\\
+        $\{4,7\}$ & $\{6\}$ & $\{2\}$\\
+        $\{2\}$ & $\{3\}$ & - \\
+        $\{3\}$ & - & $\{4\}$\\
+        $\{4\}$ & - & $\{2\}$
+    \end{tabular}
+\end{latin}
+در انتها نیز باید تعیین کنیم که کدام یک از حالات بدست آمده
+\lr{accepting state}
+هستند. جواب آنهایی است که در مجموعه‌ی خود 2 یا 6 را دارند. پس
+\begin{gather*}
+    F = \left\{\{1,2,5,6\},\{1,2,3,5,6\},\{5,6,7\},\{4,5,6,7\},\{6\},\{2,5,6,7\},\{3,6\},\{2\}\right\}
+\end{gather*}
+\subsection{}
+در ابتدا چک می‌کنیم که آیا
+\lr{dead state} و \lr{unreachable state}
+در
+\lr{DFA}
+وجود دارد یا خیر. از آنجا که تمامی
+\lr{state}ها
+ورودی دارند پس
+\lr{unreachable state}
+نداریم. همچنین در هر
+\lr{state}ای
+که باشیم می‌توان به تمامی
+\lr{state}های
+دیگر رسید.
 
-
-
+% https://www.youtube.com/watch?v=7W2lSrt8r-0
+حال باید حالات متمایز را تشخبص دهیم. در ابتدا جدولی تشکیل می‌دهیم که در آن نگه می‌داریم که
+کدام حالات نسبت به هم متمایز هستند. در ابتدا مشخص است که حالات
+\lr{acceptable} و \lr{non acceptable}
+متمایز هستند. پس داریم:
+\begin{latin}
+    \centering
+    \begin{tabular}{c|c|c|c|c|c|c|}
+          & 1 & 2 & 3 & 4 & 5 & 6\\
+        \cline{0-6}
+        7 & x & x & x & x & x &  \\
+        \cline{0-6}
+        6 & x & x & x & x & x\\
+        \cline{0-5}
+        5 &   &   &   &  \\
+        \cline{0-4}
+        4 &   &   &  \\
+        \cline{0-3}
+        3 &   &  \\
+        \cline{0-2}
+        2 &  \\
+        \cline{0-1}
+    \end{tabular}
+\end{latin}
+در ادامه هر دو
+\lr{state}
+را در نظر می‌گیریم و
+$a$ و $b$
+را همزمان به آن
+\lr{state}ها
+می‌دهیم. در صورتی که در با دادن هر کدام از آنها در حالتی رفتیم که
+\lr{accepting}
+بود و دگیری
+\lr{non accepting}،
+خانه‌ی این دو حالت را علامت دار می‌کنیم. بعد از این کار به ازای
+هر دو حالت داریم:
+\begin{latin}
+    \centering
+    \begin{tabular}{c|c|c|c|c|c|c|}
+          & 1 & 2 & 3 & 4 & 5 & 6\\
+        \cline{0-6}
+        7 & x & x & x & x & x &  \\
+        \cline{0-6}
+        6 & x & x & x & x & x\\
+        \cline{0-5}
+        5 & x & x & x &  \\
+        \cline{0-4}
+        4 & x & x & x\\
+        \cline{0-3}
+        3 & x & x\\
+        \cline{0-2}
+        2 &  \\
+        \cline{0-1}
+    \end{tabular}
+\end{latin}
+حال بار دیگر برای حالت‌هایی که علامت زده شده نسیتند کار فوق
+را انجام می‌دهیم و چک می‌کنیم که آیا در حالاتی می‌افتیم که
+نسبت به هم متمایز باشند یا خیر. در صورتی که متمایز باشند،
+برای دو حالت جدید نیز یک علامت قرار می‌دهیم.
+\begin{latin}
+    \centering
+    \begin{tabular}{c|c|c|c|c|c|c|}
+          & 1 & 2 & 3 & 4 & 5 & 6\\
+        \cline{0-6}
+        7 & x & x & x & x & x &  \\
+        \cline{0-6}
+        6 & x & x & x & x & x\\
+        \cline{0-5}
+        5 & x & x & x &  \\
+        \cline{0-4}
+        4 & x & x & x\\
+        \cline{0-3}
+        3 & x & x\\
+        \cline{0-2}
+        2 & x\\
+        \cline{0-1}
+    \end{tabular}
+\end{latin}
+حال در صورتی که بار دیگر این کار را انجام دهیم متوجه می‌شویم که
+جدول تغییری نمی‌کند. پس می‌توان حالات 6 و 7 را با هم، و حالات 4 و 5 را نیز با هم ترکیب کرد.
+\lr{DFA}
+نهایی به صورت زیر است:
+\begin{latin}
+    \centering
+    \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=3cm]
+    \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+    \node[initial,state,initial text=] (1)  {$1$};
+    \node[state,accepting] (67)[right of=1] {$6,7$};
+    \node[state] (2)[above of=67]  {$2$};
+    \node[state] (45)[below of=67] {$4,5$};
+    \node[state] (3)[right of=67]  {$3$};
+    \path
+    (1) edge[below] node{$b$} (67)
+    (1) edge[bend right, below] node{$a$} (45)
+    (2) edge[bend right, above] node{$a$} (1)
+    (2) edge[bend right, left] node{$b$} (67)
+    (3) edge[bend right, above] node{$a$} (2)
+    (3) edge[bend left, below] node{$b$} (45)
+    (45) edge[right] node{$a$} (67)
+    (45) edge[loop below] node{$b$} (45)
+    (67) edge[below] node{$a$} (3)
+    (67) edge[out=60,in=30,looseness=8] node{$b$} (67)
+    ;
+    \end{tikzpicture}
+\end{latin}
