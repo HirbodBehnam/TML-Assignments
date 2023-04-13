@@ -50,9 +50,83 @@
     \]
     \item 
 \end{enumerate}
+\subsection{}
+TODO
+\subsection{}
+زبان
+$L' = b^*a$
+را در نظر بگیرید که زیر مجموعه‌ی
+$L$
+است.
+\lr{NFA}
+این زبان به صورت زیر است:
+\begin{latin}
+    \centering
+    \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=3cm]
+    \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+    \node[initial,state,initial text=] (1)  {$1$};
+    \node[state,accepting] (2)[right of=1] {$2$};
+    \path
+    (1) edge[loop above] node{$b$} (1)
+    (1) edge[below] node{$a$} (2)
+    ;
+    \end{tikzpicture}
+\end{latin}
+در صورتی که مثل صورت سوال برای تبدیل این ماشین به یک
+\lr{NFA}
+که
+$a^*b^*a$
+را می‌پذیرد باید ماشین را تبدیل به ماشین زیر کنیم:
+\begin{latin}
+    \centering
+    \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=3cm]
+    \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+    \node[initial,state,initial text=] (1)  {$1$};
+    \node[state,accepting] (2)[right of=1] {$2$};
+    \path
+    (1) edge[loop above] node{$b$} (1)
+    (1) edge[loop below] node{$a$} (1)
+    (1) edge[below] node{$a$} (2)
+    ;
+    \end{tikzpicture}
+\end{latin}
+اما این ماشین درست نیست چرا که
+$baba$
+را می‌پذیرد ولی این در زبان ما نیست.
 
 
-
-
-
-
+برای حالت دوم هم مثالی مشابه را در نظر میگیریم:
+$L' = ab^*$
+\begin{latin}
+    \centering
+    \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=3cm]
+    \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+    \node[initial,state,initial text=] (1)  {$1$};
+    \node[state,accepting] (2)[right of=1] {$2$};
+    \path
+    (1) edge[below] node{$a$} (2)
+    (2) edge[loop above] node{$b$} (2)
+    ;
+    \end{tikzpicture}
+\end{latin}
+حال زبان
+$ab^*a^*$
+را به صورت گفته شده در صورت سوال می‌نویسیم:
+\begin{latin}
+    \centering
+    \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=3cm]
+    \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+    \node[initial,state,initial text=] (1)  {$1$};
+    \node[state,accepting] (2)[right of=1] {$2$};
+    \path
+    (1) edge[below] node{$a$} (2)
+    (2) edge[loop above] node{$b$} (2)
+    (2) edge[loop below] node{$a$} (2)
+    ;
+    \end{tikzpicture}
+\end{latin}
+این
+\lr{NFA}
+رشته‌ی
+$ababa$
+را قبول می‌کند ولی این رشته در زبان ما نیست!

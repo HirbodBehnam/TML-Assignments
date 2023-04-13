@@ -1,1 +1,120 @@
-\smalltitle{خواس بستاری زبان‌های منظم}
+\section{خواس بستاری زبان‌های منظم}
+\subsection{}
+مانند اثبات بسته بودن بر روی اشتراک و اجتماع عمل می‌کنیم. فرض کنیم که
+$M_1 = (Q_1, \Sigma, \delta_1, q_1, F_1)$
+و
+$M_2 = (Q_2, \Sigma, \delta_2, q_2, F_2)$
+است. ماشین
+$M_3$
+را به صورت زیر تعریف می‌کنیم.
+\begin{gather*}
+    Q = Q_1 \times Q_2\\
+    \Sigma = \Sigma\\
+    \delta((q, r), a) = (\delta_1(q, a), \delta_2(q, a))\\
+    q_0 = (q_1, q_2)\\
+    F = (F_1 \times Q_2) \cup (Q_1 \times F_2) - (F_1 \times F_2)
+\end{gather*}
+عملا عملگر داده شده در سوال همان دلتا
+($\Delta$)
+است که برابر است با
+$L_1 \cup L_2 - L_1 \cap L_2$
+\subsection{}
+به زبان ساده‌تر این عملگر برابر است با تمام رشته‌هایی از زبان که یک حرف آن‌ها حذف شده است. برای طراحی
+این ماشین از
+\lr{NFA}
+استفاده استفاده می‌کنیم. در ابتدا به صورت شهودی توضیح می‌دهم که چه کار باید بکنیم.  به صورت شهودی باید
+دقیقا یک ماشین دیگر با همان
+\lr{transition}های زبان
+$L_3$
+را داشته باشیم. سپس حالات
+\lr{accepting state}
+ماشینی که از آن شروع می‌کنیم را بر می‌داریم. سپس برای هر حالت از ماشین اول، با یک
+\lr{eplislon transition}
+به ماشین دوم می‌رویم اگر بین دو حالت در ماشین اصلی یک مسیر وجود داشته باشد. دقت کنید که این موضوع بدین
+معنا است که در صورتی که
+\lr{loop}
+داشته باشم، یک
+\lr{eplislon transition}
+به همان
+\lr{state}
+در ماشین دوم داریم. به عنوان مثال فرض کنید که
+$L_3$
+به کمک ماشین زیر شناخته می‌شود:
+\begin{latin}
+    \centering
+    \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=3cm]
+    \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+    \node[initial,state,initial text=] (1)  {$q_1$};
+    \node[state] (2)[right of=1] {$q_2$};
+    \node[state] (3)[right of=2] {$q_3$};
+    \node[state,accepting] (4)[right of=3] {$q_4$};
+    \path
+    (1) edge[below] node{$a$} (2)
+    (2) edge[below] node{$b$} (3)
+    (3) edge[below] node{$c$} (4)
+    (2) edge[loop above] node{$a$} (2)
+    ;
+    \end{tikzpicture}
+\end{latin}
+در صورتی که بخواهیم عملیات داده شده بر روی سوال را بر روی این
+\lr{DFA}
+انجام دهیم به
+\lr{NFA}
+زیر می‌‌رسیم:
+\begin{latin}
+    \centering
+    \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=3cm]
+    \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+    \node[initial,state,initial text=] (1)  {$q_1$};
+    \node[state] (2)[right of=1] {$q_2$};
+    \node[state] (3)[right of=2] {$q_3$};
+    \node[state] (4)[right of=3] {$q_4$};
+    \node[state] (5)[below of=1] {$q_1'$};
+    \node[state] (6)[below of=2] {$q_2'$};
+    \node[state] (7)[below of=3] {$q_3'$};
+    \node[state,accepting] (8)[below of=4] {$q_4'$};
+    \path
+    (1) edge[below] node{$a$} (2)
+    (2) edge[below] node{$b$} (3)
+    (3) edge[below] node{$c$} (4)
+    (2) edge[loop above] node{$a$} (2)
+    (5) edge[below] node{$a$} (6)
+    (6) edge[below] node{$b$} (7)
+    (7) edge[below] node{$c$} (8)
+    (6) edge[loop below] node{$a$} (6)
+    (1) edge[above] node{$\epsilon$} (6)
+    (2) edge[above] node{$\epsilon$} (7)
+    (3) edge[above] node{$\epsilon$} (8)
+    (2) edge[left] node{$\epsilon$} (6)
+    ;
+    \end{tikzpicture}
+\end{latin}
+حال سعی می‌کنیم که به زبان ریاضی ماشین نهایی را تعریف کنیم. برای این کار همان طور که گفته شد نیاز
+به دو برابر حالات ماشین اول داریم. برای این کار من از
+$Q = \{0,1\} \times Q_L$
+استفاده می‌کنم.
+$\Sigma$
+که تغییر نمی‌کند.
+$q_0 = (0, q_{0_L})$
+است و
+$F$
+برابر است با
+$\{1\} \times F_L$.
+حال برای تعریف
+$\delta$
+داریم:
+\begin{equation*}
+    \delta(q, a) =
+      \begin{cases}
+        \{0, \delta(q_L(1), a)\} & q(0) = 0, a \ne \epsilon\\
+        \{1\} \times N(q(1)) & q(0) = 0, a = \epsilon\\
+        \{1, \delta(q_L(1), a)\} & q(0) = 1\\
+      \end{cases}
+\end{equation*}
+که در اینجا
+$N(q)$
+تابعی است که خانه‌هایی را بر می‌گرداند که در
+$M_L$
+می‌توانستیم از حالت
+$q$
+به آن رسید.
