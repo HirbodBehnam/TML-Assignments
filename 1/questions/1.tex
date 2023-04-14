@@ -48,7 +48,71 @@
         (q_{14}, p) \rightarrow q_{15} & (q_{14}, q) \rightarrow q_{14} & (q_{14}, r) \rightarrow q_{14} & (q_{14}, s) \rightarrow q_{14}\\
     \end{array}
     \]
-    \item 
+    \item در این قسمت عملا یک جور مموری نگه می‌داریم از 4 کارکتر قبلی که خوانده بودیم. سپس با خواندن یک
+    کارکتر جدید عملا باید اولین حرفی که خوانده بودیم را دور بریزیم و وارد حالتی شویم که سه حرفی که خوانده
+    بودیم برابر 4 حرف آخر ما هستند. به عنوان مثال رشته‌ی
+    $baaca$
+    را در نظر بگیرید. در ابتدا با خواندن 4 حرف اول وارد حالت
+    $q_{baac}$
+    می‌شویم. سپس با خواندن
+    $a$
+    وارد حالت
+    $aaca$
+    می‌شویم. همچنین دقت کنید که در برخی از مواقع ماشین ما
+    \lr{die off}
+    می‌شود. فرض کنید که تا به حال
+    $aabb$
+    را خوانده‌ایم و یک
+    $b$
+    دیگر می‌آید. در این صورت می‌توان یا به یک حالت
+    \lr{trap}
+    رفت یا اینکه به کل این
+    \lr{trasition}
+    را قرار ندهیم.
+    قسمتی از این ماشین به صورت زیر است:
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, auto, semithick, node distance=2.5cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial,state,accepting,initial text=] (0)  {$q_{\epsilon}$};
+        \node[state,accepting] (a)[above right of=0] {$q_{a}$};
+        \node[state,accepting] (aa)[above right of=a]  {$q_{aa}$};
+        \node[state,accepting] (aaa)[above right of=aa] {$q_{aaa}$};
+        \node[state,accepting] (aaaa)[above right of=aaa]  {$q_{aaaa}$};
+        \node[state,accepting] (aaab)[right of=aaa]  {$q_{aaab}$};
+        \node[state,accepting] (aaac)[above of=aaa]  {$q_{aaac}$};
+        \node[state,accepting] (aab)[right of=aa]  {$q_{aab}$};
+        \node[state,accepting] (aaba)[right of=aab]  {$q_{aaba}$};
+        \node[state,accepting] (aabb)[below right of=aab]  {$q_{aabb}$};
+        \path
+        (0) edge[above] node{$a$} (a)
+        (a) edge[above] node{$a$} (aa)
+        (aa) edge[above] node{$a$} (aaa)
+        (aaa) edge[above] node{$a$} (aaaa)
+        (aaa) edge[above] node{$b$} (aaab)
+        (aaa) edge[right] node{$c$} (aaac)
+        (aaaa) edge[right] node{$b$} (aaab)
+        (aaaa) edge[loop above] node{$a$} (aaaa)
+
+        (aa) edge[above] node{$b$} (aab)
+        (aab) edge[above] node{$a$} (aaba)
+        (aab) edge[above] node{$b$} (aabb)
+        (aaab) edge[left] node{$a$} (aaba)
+        ;
+        \draw[out=-20, in=20, looseness=1.7] (aaab) to node[pos=0.5]{$b$} (aabb) ;
+        \end{tikzpicture}
+    \end{latin}
+    در شکل بالا در صورتی که در حالت
+    $q_{aabb}$
+    باشیم و
+    $b$
+    را بخوانیم یا باید در
+    \lr{trap state}
+    برویم یا اینکه با عدم آوردن این
+    \lr{trasition}
+    در
+    $\delta$
+    نشان دهیم که ماشین این رشته را قبول نمی‌کند.
 \end{enumerate}
 \subsection{}
 TODO
