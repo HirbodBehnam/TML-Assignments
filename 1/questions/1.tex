@@ -187,9 +187,53 @@ $q_{cccc}$ & $q_{ccca}$ & $q_{cccb}$ & $q_{cccc}$ \\
     پس کل ماشین ما
     $1 + 3 + 9 + 27 + 54$
     حالت دارد.
+    همچنین تمامی حالات این ماشین
+    \lr{accepting}
+    هستند.
 \end{enumerate}
 \subsection{}
-TODO
+به صورت شهودی سوال از ما می‌خواهد اثبات کنیم ماشین
+$A$
+معادل
+\lr{DFA}
+ماشین غیر قطعی
+$B$
+است. برای شروع اثبات، استقرا را بر روی طول رشته می‌زنیم. برای پایه‌ی استقرا فرض می‌کنیم که طول رشته‌ی
+$w$
+برابر 1 است. در این صورت داریم:
+(فرض می‌کنیم که $a$ یک حرف در زبان است.)
+\begin{gather*}
+    \hat{\delta}^*(q_0, a) = \hat{\delta}(\hat{\delta}^*(q_0, \epsilon), a) = \hat{\delta}(\{\hat{q_0}\}, a)\\
+    \delta^*(\{\hat{q_0}\}, a) = \delta(\delta^*(q_0, \epsilon), a) = \delta(q_0, a)
+\end{gather*}
+حال از فرض خود سوال داریم:
+\begin{gather*}
+    \delta(q_0, a) = \bigcup_{\hat{s} \in q_0} \hat{\delta}(\hat{s}, a) =
+    \bigcup_{\hat{s} \in \{\hat{q_0}\}} \hat{\delta}(\hat{s}, a) = \hat{\delta}(\{\hat{q_0}\}, a)
+\end{gather*}
+حال خود استقرا را می‌زنیم. فرض کنید که فرض استقرا
+$\hat{\delta}^*(q_0, w) = \delta^*(\{\hat{q_0}\}, w)$
+است که
+$w$
+یک رشته است. می‌خواهیم ثابت کنیم:
+\begin{gather*}
+    \hat{\delta}^*(q_0, wa) = \delta^*(\{\hat{q_0}\}, wa)
+\end{gather*}
+طبق تعاریف داریم:
+\begin{gather*}
+    \hat{\delta}^*(q_0, wa) = \hat{\delta}(\hat{\delta}^*(q_0, w), a) \stackrel{\text{فرض استقرا و سوال}}{=}
+    \delta(\delta^*(\{\hat{q_0}\}, w), a) = \delta^*(\{\hat{q_0}\}, wa)
+\end{gather*}
+\textbf{پی‌نوشت:}
+می‌توانستیم پایه‌ی استقرا را نیز کمی بهتر و اساسی‌تر بگیریم و بر روی اپسیلون استقرا بزنیم.
+ولی استقرا زدن بر روی یک رشته‌ی یک حرفی حداقل به من کمک کرد که گام استقرا را متوجه شوم.
+در صورت نیاز پایه‌ی استقرا با
+$\epsilon$
+به صورت زیر است:
+\begin{gather*}
+    \hat{\delta}^*(q_0, \epsilon) = q_0\\
+    \delta^*(\{\hat{q_0}\}, \epsilon) = \{\hat{q_0}\} = q_0
+\end{gather*}
 \subsection{}
 زبان
 $L' = b^*a$
