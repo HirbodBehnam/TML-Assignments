@@ -1,0 +1,142 @@
+\section{عبارت‌های منظم}
+\subsection{}
+راهی که برای حل کردن این سوال در پیش گرفتم این بود که سعی کنم که عبارتی طراحی کنم اجتماع رشته‌هایی با عمق صفر
+تا چهار باشند. در ابتدا مشخص است که
+$\epsilon$
+یک رشته‌ی قابل قبول است. سپس سراغ رشته‌هایی با عمق یک می‌رویم.
+این رشته‌ها عملا از چندین پرانتز باز و بسته دقیقا پیشت سر هم تشکیل شده‌اند. مثلا
+$()()()$.
+عبارت منظم این رشته‌ها عملا برابر است با
+$\{()\}^*$
+پس عملا تا اینجا زبان ما برابر است با
+$\epsilon \cup \{()\}^*$.
+اما نکته‌ای که وجود دارد این است که
+$\epsilon \in \{()\}^*$
+است و عملا زبان ما تا اینجا صرفا خود
+$\{()\}^*$
+است. حال سعی ‌می‌کنیم که رشته‌ها با عمق دو را نشان دهیم. این رشته‌ها عبارتند از
+$\{\left({\{()\}^*}\right)\}^*$
+اما با کمی توجه متوجه می‌شویم که این زبان رشته‌هایی با طول دو را نشان نمی‌دهد. بلکه رشته‌هایی با عمق حداکثر
+دو را نشان می‌دهد! به عنوان مثال دقت کنید که در اینجا اپسیلون نیز عضو این عبارت است. همچنین در صورتی که
+عملیات
+\lr{star}
+درونی را برابر اپسیلون قرار دهیم عملا باز به
+$\{()\}^*$
+می‌رسیم!
+حال سعی می‌کنیم که رشته‌هایی با عمق ۳ یا کمتر را نشان دهیم. مشخص است که باید از رشته‌ی قبلی استفاده کنیم.
+پس داریم:
+\begin{gather*}
+    \{\left({
+        \{\left({
+            \{()\}^*
+        }\right)\}^*
+    }\right)\}^*
+\end{gather*}
+و برای رشته‌هایی با حداکثر عمق چهار داریم:
+\begin{gather*}
+    \{\left({
+        \{\left({
+            \{\left({
+                \{()\}^*
+            }\right)\}^*
+        }\right)\}^*
+    }\right)\}^*
+\end{gather*}
+\subsection{}
+عملا این تابع کاری که می‌کند این است که یک رشته را می‌گیرد و هر حرف آنرا دوبار تکرار می‌کند.
+به عنوان مثال رشته‌ی
+$aba$
+تبدیل به
+$aabbaa$
+می‌شود. سوال از ما خواسته است که عملا رشته‌هایی را در یک زبان پیدا کنیم که دو بار هر یک از حروف آن تکرار شده‌اند.
+
+در ابتدا شهود مسئله را شرح می‌دهم. فرض کنید که زبان
+$L$
+برابر
+\lr{DFA}
+زیر است:
+\begin{latin}
+    \centering
+    \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+    \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+    \node[initial,state,initial text=] (1)  {$q_1$};
+    \node[state] (2)[right of=1] {$q_2$};
+    \node[state,accepting] (3)[right of=2] {$q_3$};
+    \node[state] (4)[below of=1] {$q_4$};
+    \node[state,accepting] (5)[below of=4] {$q_5$};
+    \node[state] (6)[right of=4] {$q_6$};
+    \path
+    (1) edge[below] node{$a$} (2)
+    (2) edge[below] node{$a$} (3)
+    (1) edge[left] node{$b$} (4)
+    (4) edge[below] node{$b$} (6)
+    (4) edge[left] node{$a$} (5)
+    ;
+    \end{tikzpicture}
+\end{latin}
+در این صورت
+$slammer^{-1}(L)$
+برابر است با
+\lr{DFA}
+زیر:
+\begin{latin}
+    \centering
+    \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+    \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+    \node[initial,state,initial text=] (1)  {$q_1$};
+    \node[state] (2)[right of=1] {$q_2$};
+    \node[state,accepting] (3)[right of=2] {$q_3$};
+    \node[state] (4)[below of=1] {$q_4$};
+    \node[state,accepting] (5)[below of=4] {$q_5$};
+    \node[state] (6)[right of=4] {$q_6$};
+    \path
+    (1) edge[bend left, above] node{$a$} (3)
+    (1) edge[left] node{$b$} (6)
+    ;
+    \end{tikzpicture}
+\end{latin}
+عملا باید از روی
+\lr{transition}های
+تکراری به فاصله‌ی دو بپریم بر روی حالت بعدی. به عبارت دیگر
+$\delta'(q, a) = \delta(\delta(q, a), a)$
+است.
+\subsection{}
+\subsubsection{}
+در صورتی که قرار دهیم
+$xy^*z = a$
+و
+$xyz = b$
+آنگاه عملا صورت سوال تبدیل می‌شود به:
+\begin{gather*}
+    a^*(ba^*)^*
+\end{gather*}
+که عملا یکی از عبارات قسمت
+14
+می‌شود. حال می‌دانیم که با توجه به اینکه تمامی این عبارات با هم برابر اند داریم که صورت سوال برابر است با
+\begin{gather*}
+    (xyz \cup xy^*z)^*
+\end{gather*}
+حال طبق مساوی‌های دیگر داریم:
+\begin{align*}
+    (xyz \cup xy^*z)^* &= (x(yz \cup y^*z))^* && (7)\\
+    &= (x(y \cup y^*)z)^* && (8)
+\end{align*}
+حال ثابت می‌کنیم که
+$x \cup x^* = x^*$
+است. برای این کار از همانی شماره
+14
+استفاده می‌کنیم.
+در صورتی که قرار دهیم
+$x = x$ و $y = x$
+با توجه به
+a و b
+داریم:
+\begin{align*}
+    (x^* \cup x)^* &= (x \cup x)^* && (14.b, 14.a)\\
+    &= x^* && (9)
+\end{align*}
+پس در اثبات اصلی ادامه می‌دهیم که:
+\begin{gather*}
+    (x(y \cup y^*)z)^* = (xy^*z)^*
+\end{gather*}
+\subsubsection{}
