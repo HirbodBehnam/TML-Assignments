@@ -1,1 +1,550 @@
 \section{هم ارزی عبارت‌های منظم و ماشین‌های متناهی}
+\begin{enumerate}
+    \item یک نقطه شروعی که برای این زبان به ذهن من رسید
+    $(ab \cup ba)^*$
+    است. این عبارت از طرفی تعداد
+    $a$ و $b$هایش
+    برابر است و از طرفی دیگر نیز اختلاف تعداد
+    $a$ و $b$
+    حداکثر برابر 2 است. به عنوان مثال در رشته‌ی
+    $abbaab$.
+    اما مشکلی که این عبارت دارد این است که رشته‌هایی مثل
+    $aabb$
+    را قبول نمی‌کند.
+    رشته‌هایی که این عبارت قبول نمی‌کند عملا آنهایی هستند که دو
+    $a$ یا $b$
+    در ابتدا یا انتهای رشته دارند. برای اینکه این رشته‌ها را نیز در زبان بیاوریم باید به صورت زیر عبارت را
+    عوض کنیم:
+    \begin{gather*}
+        \left(a(ab \cup ba)^*b\right) \cup \left(b(ab \cup ba)^*a\right) \cup \left(ab \cup ba\right)^*
+    \end{gather*}
+    \item در ابتدا
+    \lr{NFA}
+    آنرا بدست می‌آوریم. از داخلی ترین عبارت که برابر
+    $ab \cup ba$
+    است شروع می‌کنیم. \lr{DFA} این عبارت برابر است با:
+    (می‌توانستیم از روش‌هایی که در اسلاید بود نیز استفاده کنیم و به عنوان مثال با یک
+    \lr{epsilon transition}
+    به دو ماشین برویم. ولی در آن صورت به یک
+    \lr{NFA}
+    می‌رسیدیم. برای همین من مستقیم
+    \lr{DFA}
+    ساده شده را کشیدم.)
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial,state,initial text=] (1)  {$q_1$};
+        \node[state] (2)[above right of=1] {$q_2$};
+        \node[state] (3)[below right of=1] {$q_3$};
+        \node[state,accepting] (4)[below right of=2] {$q_4$};
+        \path
+        (1) edge[above] node{$a$} (2)
+        (1) edge[below] node{$b$} (3)
+        (2) edge[above] node{$b$} (4)
+        (3) edge[below] node{$a$} (4)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    حال
+    $(ab \cup ba)^*$
+    را بدست می‌آوریم. برای این کار از اسلاید‌ها استفاده می‌کنیم و یک
+    \lr{NFA}
+    بدست می‌آوریم.
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[accepting,initial,state,initial text=] (0)  {$q_0$};
+        \node[state] (1)[right of=0] {$q_1$};
+        \node[state] (2)[above right of=1] {$q_2$};
+        \node[state] (3)[below right of=1] {$q_3$};
+        \node[state,accepting] (4)[below right of=2] {$q_4$};
+        \path
+        (0) edge[above] node{$\epsilon$} (1)
+        (1) edge[above] node{$a$} (2)
+        (1) edge[below] node{$b$} (3)
+        (2) edge[above] node{$b$} (4)
+        (3) edge[below] node{$a$} (4)
+        (4) edge[below] node{$\epsilon$} (1)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    با کمی دقت متوجه می‌شویم که این
+    \lr{NFA}
+    قابلیت تبدیل شدن به
+    \lr{DFA}
+    به صورت ساده‌ای را داد:
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[accepting,initial,state,initial text=] (1)  {$q_1$};
+        \node[state] (2)[above right of=1] {$q_2$};
+        \node[state] (3)[below right of=1] {$q_3$};
+        \path
+        (1) edge[bend left,above] node{$a$} (2)
+        (1) edge[bend right,below] node{$b$} (3)
+        (2) edge[bend left,above] node{$b$} (1)
+        (3) edge[bend right,below] node{$a$} (1)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    حال سعی می‌کنیم که
+    \lr{NFA}
+    $\left(a(ab \cup ba)^*b\right)$ و $\left(b(ab \cup ba)^*a\right)$
+    را رسم کنیم. برای این موضوع دقت کنید که صرفا نیاز است که یک حالت اولیه را قبل از
+    \lr{initial state}
+    ماشین بالا اضافه بکنیم که به ترتیب با
+    $a$ و $b$
+    به حالت اولیه ماشین بالا می‌رود. برای انتهای رشته نیز از
+    \lr{non determinism}
+    استفاده می‌کنیم و یک خروجی
+    $a$ یا $b$
+    از
+    \lr{accepting state}
+    ماشین‌ها به یک
+    \lr{accepting state}
+    دیگر رسم می‌کنیم. برای همین عبارت‌های ما برابر
+    \lr{NFA}های
+    زیر می‌شوند.
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial,state,initial text=] (0)  {$q_0$};
+        \node[state] (1)[right of=0]  {$q_1$};
+        \node[state] (2)[above right of=1] {$q_2$};
+        \node[state] (3)[below right of=1] {$q_3$};
+        \node[state,accepting] (4)[below of=1] {$q_4$};
+        \path
+        (0) edge[above] node{$a$} (1)
+        (1) edge[bend left,above] node{$a$} (2)
+        (1) edge[bend right,below] node{$b$} (3)
+        (2) edge[bend left,above] node{$b$} (1)
+        (3) edge[bend right,below] node{$a$} (1)
+        (1) edge[left] node{$b$} (4)
+        ;
+        \end{tikzpicture}
+        \qquad
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial,state,initial text=] (0)  {$q_0$};
+        \node[state] (1)[right of=0]  {$q_1$};
+        \node[state] (2)[above right of=1] {$q_2$};
+        \node[state] (3)[below right of=1] {$q_3$};
+        \node[state,accepting] (4)[below of=1] {$q_4$};
+        \path
+        (0) edge[above] node{$b$} (1)
+        (1) edge[bend left,above] node{$a$} (2)
+        (1) edge[bend right,below] node{$b$} (3)
+        (2) edge[bend left,above] node{$b$} (1)
+        (3) edge[bend right,below] node{$a$} (1)
+        (1) edge[left] node{$a$} (4)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    با کمی دقت متوجه می‌شویم که
+    \lr{NFA}های
+    فوق با
+    \lr{DFA}های
+    زیر برابر‌اند:
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial,state,initial text=] (0)  {$q_0$};
+        \node[state] (1)[right of=0]  {$q_1$};
+        \node[state] (2)[above right of=1] {$q_2$};
+        \node[accepting,state] (3)[below right of=1] {$q_3$};
+        \path
+        (0) edge[above] node{$a$} (1)
+        (1) edge[bend left,above] node{$a$} (2)
+        (1) edge[bend right,below] node{$b$} (3)
+        (2) edge[bend left,above] node{$b$} (1)
+        (3) edge[bend right,below] node{$a$} (1)
+        ;
+        \end{tikzpicture}
+        \qquad
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial,state,initial text=] (0)  {$q_0$};
+        \node[state] (1)[right of=0]  {$q_1$};
+        \node[accepting,state] (2)[above right of=1] {$q_2$};
+        \node[state] (3)[below right of=1] {$q_3$};
+        \path
+        (0) edge[above] node{$b$} (1)
+        (1) edge[bend left,above] node{$a$} (2)
+        (1) edge[bend right,below] node{$b$} (3)
+        (2) edge[bend left,above] node{$b$} (1)
+        (3) edge[bend right,below] node{$a$} (1)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    با اجتماع گرفتن از تمامی ماشین‌های بالا داریم:
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial,state,initial text=] (0)  {$q_0$};
+        \node[state] (a0)[above of=0]  {$q_{a0}$};
+        \node[state] (a1)[above of=a0]  {$q_{a2}$};
+        \node[state] (a2)[above left of=a1] {$q_{a2}$};
+        \node[accepting,state] (a3)[above right of=a1] {$q_{a3}$};
+        \node[state] (b0)[below of=0]  {$q_{b0}$};
+        \node[state] (b1)[below of=b0]  {$q_{b1}$};
+        \node[accepting,state] (b2)[below right of=b1] {$q_{b2}$};
+        \node[state] (b3)[below left of=b1] {$q_{b3}$};
+        \node[accepting,state] (c1)[right of=0]  {$q_{c1}$};
+        \node[state] (c2)[above right of=c1] {$q_{c2}$};
+        \node[state] (c3)[below right of=c1] {$q_{c3}$};
+        \path
+        (0) edge[left] node{$\epsilon$} (a0)
+        (a0) edge[left] node{$a$} (a1)
+        (a1) edge[bend left,above] node{$a$} (a2)
+        (a1) edge[bend right,below] node{$b$} (a3)
+        (a2) edge[bend left,above] node{$b$} (a1)
+        (a3) edge[bend right,below] node{$a$} (a1)
+        (0) edge[left] node{$\epsilon$} (b0)
+        (b0) edge[left] node{$b$} (b1)
+        (b1) edge[bend left,above] node{$a$} (b2)
+        (b1) edge[bend right,below] node{$b$} (b3)
+        (b2) edge[bend left,above] node{$b$} (b1)
+        (b3) edge[bend right,below] node{$a$} (b1)
+        (0) edge[above] node{$\epsilon$} (c1)
+        (c1) edge[bend left,above] node{$a$} (c2)
+        (c1) edge[bend right,below] node{$b$} (c3)
+        (c2) edge[bend left,above] node{$b$} (c1)
+        (c3) edge[bend right,below] node{$a$} (c1)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    که با کمی ساده سازی بیشتر به عبارت زیر می‌رسیم:
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[accepting,initial above,state,initial text=] (0)  {$q_0$};
+        \node[state] (a1)[left of=0]  {$q_{a1}$};
+        \node[state] (a2)[left of=a1]  {$q_{a2}$};
+        \node[state] (b1)[right of=0]  {$q_{b1}$};
+        \node[state] (b2)[right of=b1]  {$q_{b2}$};
+        \node[state] (trap)[below of=0]  {$q_t$};
+        \path
+        (0) edge[bend left,below] node{$a$} (a1)
+        (a1) edge[bend left,above] node{$b$} (0)
+        (a1) edge[bend left,below] node{$a$} (a2)
+        (a2) edge[bend left,above] node{$b$} (a1)
+        (a2) edge[bend right,below] node{$a$} (trap)
+        (0) edge[bend left,above] node{$b$} (b1)
+        (b1) edge[bend left,below] node{$a$} (0)
+        (b1) edge[bend left,above] node{$b$} (b2)
+        (b2) edge[bend left,below] node{$a$} (b1)
+        (b2) edge[bend left,below] node{$b$} (trap)
+        (trap) edge[loop below, below] node{$a,b$} (trap)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    \item جای تمامی \lr{accepting state}ها و \lr{non accepting state}ها
+    را عوض می‌کنیم:
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial above,state,initial text=] (0)  {$q_0$};
+        \node[accepting,state] (a1)[left of=0]  {$q_{a1}$};
+        \node[accepting,state] (a2)[left of=a1]  {$q_{a2}$};
+        \node[accepting,state] (b1)[right of=0]  {$q_{b1}$};
+        \node[accepting,state] (b2)[right of=b1]  {$q_{b2}$};
+        \node[accepting,state] (trap)[below of=0]  {$q_t$};
+        \path
+        (0) edge[bend left,below] node{$a$} (a1)
+        (a1) edge[bend left,above] node{$b$} (0)
+        (a1) edge[bend left,below] node{$a$} (a2)
+        (a2) edge[bend left,above] node{$b$} (a1)
+        (a2) edge[bend right,below] node{$a$} (trap)
+        (0) edge[bend left,above] node{$b$} (b1)
+        (b1) edge[bend left,below] node{$a$} (0)
+        (b1) edge[bend left,above] node{$b$} (b2)
+        (b2) edge[bend left,below] node{$a$} (b1)
+        (b2) edge[bend left,below] node{$b$} (trap)
+        (trap) edge[loop below, below] node{$a,b$} (trap)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    حال با توجه به این \lr{DFA} یک \lr{GNFA} تشکیل می‌دهیم که بتوانیم عبارت منظم را از آن استخراج کنیم.
+    برای سادگی نیز من
+    $\emptyset$ها
+    را نکشیدم.
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial above,state,initial text=] (start)  {$q_{start}$};
+        \node[state] (0)[below of=start]  {$q_0$};
+        \node[state] (a1)[left of=0]  {$q_{a1}$};
+        \node[state] (a2)[left of=a1]  {$q_{a2}$};
+        \node[state] (b1)[right of=0]  {$q_{b1}$};
+        \node[state] (b2)[right of=b1]  {$q_{b2}$};
+        \node[state] (trap)[below of=0]  {$q_t$};
+        \node[accepting,state] (end)[below of=trap]  {$q_{end}$};
+        \path
+        (start) edge[left] node{$\epsilon$} (0)
+        (0) edge[bend left,below] node{$a$} (a1)
+        (a1) edge[bend left,above] node{$b$} (0)
+        (a1) edge[bend left,below] node{$a$} (a2)
+        (a2) edge[bend left,above] node{$b$} (a1)
+        (a2) edge[bend right,below] node{$a$} (trap)
+        (0) edge[bend left,above] node{$b$} (b1)
+        (b1) edge[bend left,below] node{$a$} (0)
+        (b1) edge[bend left,above] node{$b$} (b2)
+        (b2) edge[bend left,below] node{$a$} (b1)
+        (b2) edge[bend left,below] node{$b$} (trap)
+        (trap) edge[loop above, above] node{$a \cup b$} (trap)
+        (trap) edge[left] node{$\epsilon$} (end)
+        (a1) edge[bend right,left] node{$\epsilon$} (end)
+        (a2) edge[bend right,left] node{$\epsilon$} (end)
+        (b1) edge[bend left,right] node{$\epsilon$} (end)
+        (b2) edge[bend left,right] node{$\epsilon$} (end)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    حال باید یکی یکی حالات این
+    \lr{GNFA}
+    را حذف کنیم تا تنها یک
+    \lr{start}
+    و
+    \lr{end}
+    داشته باشیم. در ابتدا از
+    $q_{a1}$
+    شروع می‌کنیم.
+    در این صورت تغییری که رخ می‌دهد این است که از
+    $q_0$ می‌توان
+    به کمک
+    $aa$
+    به
+    $q_{a2}$
+    رفت و با خواندن
+    $bb$
+    نیز می‌توان به
+    $q_0$ از $q_{a2}$
+    رفت. همچنین باید 
+    \lr{epsilon transition}ای
+    که به
+    $q_{end}$
+    می‌رسید را نیز تغییر دهیم. عملا می‌تونستیم از
+    $q_0$
+    یک
+    $a$
+    بخوانیم و به
+    $q_{end}$
+    برویم و یا از
+    $q_{a2}$
+    یک
+    $b$
+    بخوانیم و کار مشابه را انجام دهیم.
+    همچنین توجه داشته باشید که در صورتی که عملیات تبدیل را انجام دهیم آنگاه باید حواسمان به
+    \lr{loop}هایی
+    که تشکیل می‌شود نیز باشد. به عنوان مثال در صورتی که حالت
+    $q_{a2}$
+    با خودش را بگیریم عملا یک
+    \lr{loop}
+    با محتوای
+    $ba$
+    به وجود می‌آید (مثل اینکه به $q_{a1}$ برویم و برگردیم.).
+    پس در نهایت
+    \lr{GNFA}
+    ما به صورت زیر می‌شود:
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial above,state,initial text=] (start)  {$q_{start}$};
+        \node[state] (0)[below of=start]  {$q_0$};
+        \node[state] (a2)[left of=0]  {$q_{a2}$};
+        \node[state] (b1)[right of=0]  {$q_{b1}$};
+        \node[state] (b2)[right of=b1]  {$q_{b2}$};
+        \node[state] (trap)[below=2cm of 0]  {$q_t$};
+        \node[accepting,state] (end)[below of=trap]  {$q_{end}$};
+        \path
+        (start) edge[left] node{$\epsilon$} (0)
+        (0) edge[bend right,left,out=200,in=270,looseness=3.5] node{$a$} (end)
+        (0) edge[loop below, below] node{$ab$} (0)
+        (0) edge[bend right,above] node{$aa$} (a2)
+        (a2) edge[bend right,below] node{$bb$} (0)
+        (a2) edge[loop above, above] node{$ba$} (a2)
+        (a2) edge[bend right,below] node{$a$} (trap)
+        (0) edge[bend left,above] node{$b$} (b1)
+        (b1) edge[bend left,below] node{$a$} (0)
+        (b1) edge[bend left,above] node{$b$} (b2)
+        (b2) edge[bend left,below] node{$a$} (b1)
+        (b2) edge[bend left,below] node{$b$} (trap)
+        (trap) edge[loop above, above] node{$a \cup b$} (trap)
+        (trap) edge[left] node{$\epsilon$} (end)
+        (a2) edge[bend right,left] node{$\epsilon \cup b$} (end)
+        (b1) edge[bend left,right] node{$\epsilon$} (end)
+        (b2) edge[bend left,right] node{$\epsilon$} (end)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    حال کار مشابه‌ی را بر روی
+    $q_{b1}$
+    انجام می‌دهیم.
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial above,state,initial text=] (start)  {$q_{start}$};
+        \node[state] (0)[below of=start]  {$q_0$};
+        \node[state] (a2)[left of=0]  {$q_{a2}$};
+        \node[state] (b2)[right of=0]  {$q_{b2}$};
+        \node[state] (trap)[below=2cm of 0]  {$q_t$};
+        \node[accepting,state] (end)[below of=trap]  {$q_{end}$};
+        \path
+        (start) edge[left] node{$\epsilon$} (0)
+        (0) edge[bend right,left,out=200,in=270,looseness=3.5] node{$a$} (end)
+        (0) edge[bend right,right,out=160,in=90,looseness=3.5] node{$b$} (end)
+        (0) edge[loop below, below] node{$ab \cup ba$} (0)
+        (0) edge[bend right,above] node{$aa$} (a2)
+        (a2) edge[bend right,below] node{$bb$} (0)
+        (a2) edge[loop above, above] node{$ba$} (a2)
+        (a2) edge[bend right,below] node{$a$} (trap)
+        (0) edge[bend left,above] node{$bb$} (b2)
+        (b2) edge[bend left,below] node{$aa$} (0)
+        (b2) edge[loop above, above] node{$ab$} (b2)
+        (b2) edge[bend left,below] node{$b$} (trap)
+        (trap) edge[loop above, above] node{$a \cup b$} (trap)
+        (trap) edge[left] node{$\epsilon$} (end)
+        (a2) edge[bend right,left] node{$\epsilon \cup b$} (end)
+        (b2) edge[bend left,right] node{$\epsilon \cup a$} (end)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    حال به سراغ
+    $q_{a2}$
+    می‌رویم. برای شروع اگر از
+    $q_0$
+    به
+    $q_{a2}$
+    می‌رفتیم می‌توانستیم بی نهایت بار
+    $ba$
+    را بخوانیم و با خواندن
+    $bb$
+    به همان
+    $q_0$
+    برگردیم. پس عملا
+    \lr{loop}
+    حالت
+    $q_0$
+    برابر می‌شود با
+    $ab \cup ba \cup aa(ba)^*bb$
+    همچنین می‌توانستیم از
+    $q_0$
+    به
+    $q_{a2}$
+    و بعد به
+    $q_{end}$ و $q_{t}$
+    نیز برویم. یال هر کدام از
+    \lr{transition}ها
+    برابر می‌شود با
+    $aa(ba)^*(\epsilon \cup b)$
+    و
+    $aa(ba)^*a$.
+    پس داریم:
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial above,state,initial text=] (start)  {$q_{start}$};
+        \node[state] (0)[below of=start]  {$q_0$};
+        \node[state] (b2)[right of=0]  {$q_{b2}$};
+        \node[state] (trap)[below=2cm of 0]  {$q_t$};
+        \node[accepting,state] (end)[below of=trap]  {$q_{end}$};
+        \path
+        (start) edge[left] node{$\epsilon$} (0)
+        (0) edge[bend right,left,out=200,in=270,looseness=3.5] node{$a \cup aa(ba)^*(\epsilon \cup b)$} (end)
+        (0) edge[bend right,right,out=160,in=90,looseness=3.5] node{$b$} (end)
+        (0) edge[loop below, below] node{$ab \cup ba \cup aa(ba)^*bb$} (0)
+        (0) edge[bend right,left,out=270,in=270,looseness=1.6] node{$aa(ba)^*a$} (trap)
+        (0) edge[bend left,above] node{$bb$} (b2)
+        (b2) edge[bend left,below] node{$aa$} (0)
+        (b2) edge[loop above, above] node{$ab$} (b2)
+        (b2) edge[bend left,below] node{$b$} (trap)
+        (trap) edge[loop above, above] node{$a \cup b$} (trap)
+        (trap) edge[left] node{$\epsilon$} (end)
+        (b2) edge[bend left,right] node{$\epsilon \cup a$} (end)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    از طرفی دیگر به صورت مشابه برای
+    $q_{b2}$
+    داریم:
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial above,state,initial text=] (start)  {$q_{start}$};
+        \node[state] (0)[below of=start]  {$q_0$};
+        \node[state] (trap)[below=2cm of 0]  {$q_t$};
+        \node[accepting,state] (end)[below of=trap]  {$q_{end}$};
+        \path
+        (start) edge[left] node{$\epsilon$} (0)
+        (0) edge[bend right,left,out=200,in=270,looseness=3.5] node{$a \cup aa(ba)^*(\epsilon \cup b)$} (end)
+        (0) edge[bend right,right,out=160,in=90,looseness=3.5] node{$b \cup bb(ab)^*(\epsilon \cup a)$} (end)
+        (0) edge[loop below, below] node{\tiny $ab \cup ba \cup aa(ba)^*bb \cup bb(ab)^*aa$} (0)
+        (0) edge[bend right,left,out=270,in=270,looseness=1.6] node{$aa(ba)^*a$} (trap)
+        (0) edge[bend right,right,out=90,in=90,looseness=1.6] node{$bb(ab)^*b$} (trap)
+        (trap) edge[loop above, above] node{$a \cup b$} (trap)
+        (trap) edge[left] node{$\epsilon$} (end)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    کمی
+    \lr{GNFA}
+    را تمیزتر می‌کنیم:
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial,state,initial text=] (start)  {$q_{start}$};
+        \node[state] (0)[right of=start]  {$q_0$};
+        \node[state] (trap)[right=3cm of 0]  {$q_t$};
+        \node[accepting,state] (end)[right of=trap]  {$q_{end}$};
+        \path
+        (start) edge[above] node{$\epsilon$} (0)
+        (0) edge[bend left,above,in=90,out=90,looseness=1] node{$a \cup aa(ba)^*(\epsilon \cup b) \cup b \cup bb(ab)^*(\epsilon \cup a)$} (end)
+        (0) edge[loop below, below] node{$ab \cup ba \cup aa(ba)^*bb \cup bb(ab)^*aa$} (0)
+        (0) edge[above] node{\small $aa(ba)^*a \cup bb(ab)^*b$} (trap)
+        (trap) edge[loop above, above] node{$a \cup b$} (trap)
+        (trap) edge[above] node{$\epsilon$} (end)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    حال سراغ
+    $q_t$
+    می‌رویم. با حذف کردن این حالت صرفا حالتی که از
+    $q_0$ به $q_{end}$
+    می‌رویم عوض می‌شود.
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial,state,initial text=] (start)  {$q_{start}$};
+        \node[state] (0)[right of=start]  {$q_0$};
+        \node[accepting,state] (end)[right=3cm of start]  {$q_{end}$};
+        \path
+        (start) edge[above] node{$\epsilon$} (0)
+        (0) edge[bend left,above,in=90,out=90,looseness=1] node{$a \cup aa(ba)^*(\epsilon \cup b) \cup b \cup bb(ab)^*(\epsilon \cup a) \cup (aa(ba)^*a \cup bb(ab)^*b)(a \cup b)^*$} (end)
+        (0) edge[loop below, below] node{$ab \cup ba \cup aa(ba)^*bb \cup bb(ab)^*aa$} (0)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    در نهایت با حذف
+    $q_0$
+    عبارت منظم مورد نظر بدست می‌آید:
+    \begin{gather*}
+        (ab \cup ba \cup aa(ba)^*bb \cup bb(ab)^*aa)^*
+        \\\circ\\
+        (a \cup aa(ba)^*(\epsilon \cup b) \cup b \cup bb(ab)^*(\epsilon \cup a) \cup (aa(ba)^*a \cup bb(ab)^*b)(a \cup b)^*)
+    \end{gather*}
+\end{enumerate}
