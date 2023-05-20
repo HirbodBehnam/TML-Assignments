@@ -1,0 +1,54 @@
+\section{گرامر زبان‌های مستقل از متن}
+\subsection{}
+\begin{enumerate}
+    \item کافی است که کاری کنیم که سمت راست تساوی تعداد حروفش برابر با سمت چپ باشد. این کار را با
+    عبارتی همچون
+    $S \rightarrow LSR | \epsilon$
+    انجام داد. اما مشکلی که وجود دارد این است که نمی‌توانیم که مرزی برای
+    $a$ و $b$
+    و
+    $c$ و $d$
+    تعیین کنیم. به همین جهت بر روی آن مرز حالت بندی می‌کنیم. برای همین گرامر ما به صورت زیر در می‌آید:
+    \begin{align*}
+        S &\rightarrow aSd ~|~ bAd ~|~ aBc ~|~ bCc ~|~ \epsilon\\
+        A &\rightarrow bAd ~|~ bCc ~|~ \epsilon\\
+        B &\rightarrow aBc ~|~ bCc ~|~ \epsilon\\
+        C &\rightarrow bCc ~|~ \epsilon
+    \end{align*}
+    \item تا حدودی مثل قسمت قبل عمل می‌کنیم:
+    \begin{align*}
+        S &\rightarrow Ab\\
+        A &\rightarrow aAa ~|~ aAb ~|~ bAa ~|~ bAb ~|~ ش\\
+    \end{align*}
+\end{enumerate}
+\subsection{}
+\begin{enumerate}
+    \item در ابتدا رفتار
+    $S$
+    را بررسی می‌کنیم. متوجه می‌شویم که خط اول عباراتی همچون
+    $S\#S\#\dots$
+    را تولید می‌کند. به عبارت دیگری
+    $(S\#)^*$.
+    حال به جای هر کدام از
+    $S$ها
+    می‌توان
+    $A$
+    قرار داد. حال رفتار
+    $A$
+    را بررسی می‌کنیم. به صورت نامتناهی می‌توان در سمت چپ
+    $A$، 0 قرار داد
+    و در نهایت
+    $A$
+    را با
+    \lr{10}
+    جایگزاری کرد. پس زبان این عبارت برابر است با
+    \begin{gather*}
+        (0^*10\#)^*
+    \end{gather*}
+    (عملا زبان منظم بود)
+    \item عملا این زبان شبیه زبان قسمت دوم قسمت قبل است. یعنی
+    \begin{gather*}
+        \{avu | v, u \in \{a, b\}^* \land |v| = |u|\} \cup \{bvu | v, u \in \{a, b\}^* \land |v| = |u|\}
+    \end{gather*}
+\end{enumerate}
+\subsection{}
