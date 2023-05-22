@@ -1,1 +1,63 @@
-\section{هم ارزی عبارت‌های منظم و ماشین‌های متناهی}
+\section{خواص بستاری زبان‌های مستقل از متن}
+\subsection{}
+\begin{enumerate}
+    \item فرض کنید که گرامرهای
+    $G = (V, \Sigma, R, S)$ و $G' = (V', \Sigma', R', S')$
+    را داریم. گرامر
+    $G''$
+    را به صورت زیر تشکیل می‌دهم:
+    \begin{align*}
+        V'' &= V \cup V'\\
+        \Sigma'' &= \Sigma \cup \Sigma'\\
+        R'' &= R \cup R' \cup \{S'' \rightarrow SS'\}
+    \end{align*}
+    \item فرض کنید که گرامر ما
+    $G = (V, \Sigma, R, S)$
+    است. در این حالت گرامر
+    $G' = (V, \Sigma, R', S')$
+    را به صورت زیر تعریف می‌کنیم.
+    \begin{align*}
+        R' = R \cup \{S' \rightarrow SS' ~|~ \epsilon\}
+    \end{align*}
+\end{enumerate}
+\subsection{}
+\begin{itemize}
+    \item در ابتدا اثبات می‌کنیم که اجتماع دو
+    \lr{CFG}
+    باز هم یک
+    \lr{CFG}
+    است. فرض کنید که داریم:
+    $G = (V, \Sigma, R, S)$ و $G' = (V', \Sigma', R', S')$.
+    کافی است که داشته باشیم:
+    \begin{align*}
+        V'' &= V \cup V'\\
+        \Sigma'' &= \Sigma \cup \Sigma'\\
+        R'' &= R \cup R' \cup \{S'' \rightarrow S ~|~ S'\}
+    \end{align*}.
+    با این حالت کافی است که برای هر کدام از شرط‌ها یک
+    \lr{grammer}
+    بنویسیم. به عنوان مثال برای
+    $\{a^mb^kc^n | m,n > 0, m = k + n\}$
+    داریم:
+    \begin{align*}
+        S &\rightarrow aAc\\
+        A &\rightarrow aAc ~|~ aBb ~|~ \epsilon\\
+        B &\rightarrow aBb ~|~ \epsilon
+    \end{align*}
+    برای قسمت
+    $\{a^mb^kc^n | m,n > 0, k = m + n\}$
+    داریم:
+    \begin{align*}
+        S &\rightarrow aAbbBc\\
+        A &\rightarrow aAb ~|~ \epsilon\\
+        B &\rightarrow bBc ~|~ \epsilon
+    \end{align*}
+    برای قسمت
+    $\{a^mb^kc^n | m,n > 0, n = k + m\}$
+    نیز داریم:
+    \begin{align*}
+        S &\rightarrow aAc\\
+        A &\rightarrow aAc ~|~ bBc ~|~ \epsilon\\
+        B &\rightarrow bBc ~|~ \epsilon
+    \end{align*}
+\end{itemize}
