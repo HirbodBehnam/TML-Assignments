@@ -1,1 +1,91 @@
-\section{زبان‌های نامظم و لم تزریق}
+\section{ماشین‌های پشته‌ای}
+\subsection{}
+\begin{enumerate}
+    \item این ماشین زبان‌های متقارن با طول زوج را نمی‌پذیرد. به عنوان یک مثال ساده
+    $11$
+    را نمی‌پذیرد.
+    \item کافی است که یک \lr{epsilon transition} یا به عبارتی
+    $\epsilon, \epsilon \rightarrow \epsilon$
+    از
+    $q_1$ به $q_2$
+    وصل کنیم.
+\end{enumerate}
+\subsection{}
+\begin{enumerate}
+    \item صرفا در زمانی که اولین $b$ را می‌خوانیم از
+    \lr{non determinism}
+    استفاده می‌کنیم.
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=3cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial,state,initial text=] (0)  {$q_0$};
+        \node[state] (1)[right of=0]  {$q_1$};
+        \node[state] (2)[above right of=1] {$q_2$};
+        \node[state] (3)[below right of=1] {$q_3$};
+        \node[state] (4)[below of=3] {$q_4$};
+        \node[state] (5)[below of=4] {$q_5$};
+        \node[state,accepting] (6)[below right of=2] {$q_6$};
+        \path
+        (0) edge[above] node{$\epsilon, \epsilon \rightarrow \$$} (1)
+        (1) edge[loop below] node{$a, \epsilon \rightarrow a$} (1)
+        (1) edge[sloped, anchor=center, above] node{$b, a \rightarrow \epsilon$} (2)
+        (1) edge[sloped, anchor=center, above] node{$b, a \rightarrow \epsilon$} (3)
+        (3) edge[sloped, anchor=center, below] node{$b, a \rightarrow \epsilon$} (4)
+        (4) edge[sloped, anchor=center, below] node{$b, a \rightarrow \epsilon$} (5)
+        (2) edge[sloped, anchor=center, above] node{$\epsilon, \$ \rightarrow \epsilon$} (6)
+        (5) edge[bend right, right] node{$\epsilon, \$ \rightarrow \epsilon$} (6)
+        (5) edge[bend left, left] node{$b, a \rightarrow \epsilon$} (3)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    \item با کمی دقت متوجه می‌شویم که این زبان عملا همان
+    $\{a^i b^j c^k | k \ge i ~\text{or}~ k \ge j\}$
+    است. پس می‌توانیم از
+    \lr{non determinism}
+    استفاده کنیم.
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=3cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial,state,initial text=] (0)  {$q_0$};
+        \node[state] (1)[right of=0]  {$q_1$};
+        \node[state] (2)[above right of=1] {$q_2$};
+        \node[state] (3)[below right of=1] {$q_3$};
+        \node[state] (4)[right of=2] {$q_4$};
+        \node[state] (5)[right of=3] {$q_5$};
+        \node[state] (6)[below right of=4] {$q_6$};
+        \node[state,accepting] (7)[right of=6] {$q_7$};
+        \path
+        (0) edge[above] node{$\epsilon, \epsilon \rightarrow \$$} (1)
+        (1) edge[sloped, anchor=center, above] node{$a, \epsilon \rightarrow x$} (2)
+        (1) edge[sloped, anchor=center, above] node{$a, \epsilon \rightarrow \epsilon$} (3)
+        (2) edge[loop above] node{$a, \epsilon \rightarrow x$} (2)
+        (3) edge[loop below] node{$a, \epsilon \rightarrow \epsilon$} (3)
+        (2) edge[above] node{$b, \epsilon \rightarrow \epsilon$} (4)
+        (3) edge[below] node{$b, \epsilon \rightarrow x$} (5)
+        (4) edge[loop above] node{$b, \epsilon \rightarrow \epsilon$} (4)
+        (5) edge[loop below] node{$b, \epsilon \rightarrow x$} (5)
+        (4) edge[sloped, anchor=center, below] node{$c, x \rightarrow \epsilon$} (6)
+        (5) edge[sloped, anchor=center, below] node{$c, x \rightarrow \epsilon$} (6)
+        (6) edge[loop above] node{$c, x \rightarrow \epsilon$} (6)
+        (6) edge[sloped, anchor=center, above] node{$c, \$ \rightarrow \epsilon$} (7)
+        (7) edge[loop below] node{$c, \epsilon \rightarrow \epsilon$} (7)
+        ;
+        \end{tikzpicture}
+    \end{latin}
+    اما نکته‌ای که وجود دارد این است که این ماشین رشته‌هایی مثل
+    $\epsilon$ یا $ac$ را قبول نمی‌کند.
+    برای درست شدن این موضوع می‌توان
+    \lr{transition}هایی
+    مثلا از
+    $q_1$
+    به
+    $q_5$
+    با عبارت روی یال
+    $b, \epsilon \rightarrow x$
+    اضافه کرد. یا مثال یال
+    $q_0$ به $q_7$ با یال
+    $\epsilon, \epsilon \rightarrow \epsilon$
+    وصل می‌کنیم.
+\end{enumerate}
