@@ -29,6 +29,7 @@
         \path
         (0) edge[above] node{$\epsilon, \epsilon \rightarrow \$$} (1)
         (1) edge[loop below] node{$a, \epsilon \rightarrow a$} (1)
+        (2) edge[loop above] node{$b, a \rightarrow \epsilon$} (2)
         (1) edge[sloped, anchor=center, above] node{$b, a \rightarrow \epsilon$} (2)
         (1) edge[sloped, anchor=center, above] node{$b, a \rightarrow \epsilon$} (3)
         (3) edge[sloped, anchor=center, below] node{$b, a \rightarrow \epsilon$} (4)
@@ -88,4 +89,52 @@
     $q_0$ به $q_7$ با یال
     $\epsilon, \epsilon \rightarrow \epsilon$
     وصل می‌کنیم.
+    \item دقت کنید که شرط
+    $n \neq 2m + 1$
+    برابر است با
+    $n - 1 \neq 2m$.
+    پس اولین
+    $0$
+    را که می‌خوانیم هیچ چیزی را در
+    \lr{stack push}
+    نمی‌کنیم ولی از بعد از آن به ازای هر
+    $0$
+    یک
+    $0$
+    نیز در
+    \lr{stack push}
+    می‌کنیم. سپس به ازای هر
+    $1$
+    دو
+    $0$
+    را از
+    \lr{stack pop}
+    می‌کنیم. در صورتی که در آخر کار استک خالی بود
+    \lr{reject}
+    می‌کنیم و در غیر این صورت
+    \lr{accept}.
+    \begin{latin}
+        \centering
+        \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=3cm]
+        \tikzstyle{every state}=[fill=white,draw=black,thick,text=black,scale=1]
+        \node[initial,state,initial text=] (0)  {$q_0$};
+        \node[state] (1)[below of=0]  {$q_1$};
+        \node[accepting,state] (2)[below of=1] {$q_2$};
+        \node[state] (3)[right of=1] {$q_3$};
+        \node[state] (4)[right of=3] {$q_4$};
+        \node[accepting,state] (5)[below of=4] {$q_5$};
+        \path
+        (0) edge[sloped, anchor=center, below] node{$0, \epsilon \rightarrow \$$} (1)
+        (1) edge[loop left] node{$0, \epsilon \rightarrow 0$} (2)
+        (1) edge[sloped, anchor=center, below] node{$1, \$ \rightarrow \epsilon$} (2)
+        (2) edge[loop left] node{$1, \epsilon \rightarrow \epsilon$} (2)
+        (1) edge[sloped, anchor=center, below] node{$1, 0 \rightarrow \epsilon$} (3)
+        (3) edge[sloped, anchor=center, below] node{$\epsilon, \$ \rightarrow \epsilon$} (2)
+        (3) edge[sloped, anchor=center, below] node{$\epsilon, 0 \rightarrow \epsilon$} (4)
+        (4) edge[sloped, anchor=center, below] node{$1, \$ \rightarrow \epsilon$} (2)
+        (4) edge[sloped, anchor=center, below] node{$\epsilon, 0 \rightarrow \epsilon$} (5)
+        (4) edge[bend right, above] node{$1, 0 \rightarrow \epsilon$} (3)
+        ;
+        \end{tikzpicture}
+    \end{latin}
 \end{enumerate}
