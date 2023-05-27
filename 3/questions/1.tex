@@ -18,7 +18,7 @@
     \item تا حدودی مثل قسمت قبل عمل می‌کنیم:
     \begin{align*}
         S &\rightarrow Ab\\
-        A &\rightarrow aAa ~|~ aAb ~|~ bAa ~|~ bAb ~|~ ش\\
+        A &\rightarrow aAa ~|~ aAb ~|~ bAa ~|~ bAb ~|~ a\\
     \end{align*}
 \end{enumerate}
 \subsection{}
@@ -28,7 +28,7 @@
     را بررسی می‌کنیم. متوجه می‌شویم که خط اول عباراتی همچون
     $S\#S\#\dots$
     را تولید می‌کند. به عبارت دیگری
-    $(S\#)^*$.
+    $S(\#S)^*$.
     حال به جای هر کدام از
     $S$ها
     می‌توان
@@ -43,7 +43,7 @@
     \lr{10}
     جایگزاری کرد. پس زبان این عبارت برابر است با
     \begin{gather*}
-        (0^*10\#)^*
+        0^*10(\#0^*10)^*
     \end{gather*}
     (عملا زبان منظم بود)
     \item عملا این زبان شبیه زبان قسمت دوم قسمت قبل است. یعنی
@@ -52,3 +52,63 @@
     \end{gather*}
 \end{enumerate}
 \subsection{}
+\begin{enumerate}
+    \item به صورت زیر:
+    \begin{figure}[H]
+        % http://ironcreek.net/syntaxtree/
+        % [S [B [A b [B b]] b] [B b]]
+        % [S [B b] [B [A [B b] b] b]]
+        \centering
+        \includegraphics[scale=0.5]{pics/1-3-1.png}
+    \end{figure}
+    \item در ابتدا باید $S$ را از سمت راست تمامی تساوی‌ها حذف کنیم. همچنین شروع
+    زبان را از
+    $S_0$
+    در نظر می‌گیریم.
+    \begin{align*}
+        S_0 &\rightarrow S\\
+        S &\rightarrow ASB ~|~ BB\\
+        A &\rightarrow SAa ~|~ bB ~|~ a\\
+        B &\rightarrow Ab ~|~ Sa ~|~ b
+    \end{align*}
+    حال قوانینی اضافه می‌‌کنیم که ترمینال با متغیر قاطی نباشد.
+    \begin{align*}
+        S_0 &\rightarrow S\\
+        S &\rightarrow ASB ~|~ BB\\
+        A &\rightarrow SAN_a ~|~ N_bB ~|~ a\\
+        B &\rightarrow AN_b ~|~ SN_a ~|~ b\\
+        N_a &\rightarrow a\\
+        N_b &\rightarrow b
+    \end{align*}
+    حال
+    \lr{unit rule}
+    $S_0 \rightarrow S$
+    را حذف می‌کنیم.
+    \begin{align*}
+        S_0 &\rightarrow ASB ~|~ BB\\
+        S &\rightarrow ASB ~|~ BB\\
+        A &\rightarrow SAN_a ~|~ N_bB ~|~ a\\
+        B &\rightarrow AN_b ~|~ SN_a ~|~ b\\
+        N_a &\rightarrow a\\
+        N_b &\rightarrow b
+    \end{align*}
+    در نهایت نیز متغیر‌هایی سه تایی را تبدیل به دوتایی می‌کنیم.
+    \begin{align*}
+        S_0 &\rightarrow AC ~|~ BB\\
+        S &\rightarrow AC ~|~ BB\\
+        A &\rightarrow SD ~|~ N_bB ~|~ a\\
+        B &\rightarrow AN_b ~|~ SN_a ~|~ b\\
+        N_a &\rightarrow a\\
+        N_b &\rightarrow b\\
+        C &\rightarrow SB\\
+        D &\rightarrow AN_a
+    \end{align*}
+    \item بله. به طریق مشابه قسمت اول داریم:
+    \begin{figure}[H]
+        % http://ironcreek.net/syntaxtree/
+        % [S_s [B [A [N_b b] [B b]] [N_b b]] [B b]]
+        % [S_s [B b] [B [A [N_b b] [B b]] [N_b b]]]
+        \centering
+        \includegraphics[scale=0.5]{pics/1-3-3.png}
+    \end{figure}
+\end{enumerate}
