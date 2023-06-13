@@ -39,3 +39,57 @@ $\epsilon$
 و همزمان با
 \lr{scheduling}
 آنها را به ماشین تورینگ بدهیم که بر روی خودش شبیه سازی بکند.
+
+\subsection{}
+% http://cobweb.cs.uga.edu/~shelby/classes/2670-fall-05/HW7Soln.pdf
+% https://cs.stackexchange.com/q/3251/128845
+در ابتدا ثابت می‌کنیم که اگر
+$L$
+منظم باشد آنگاه
+$L^R$
+نیز منظم است. برای اینکار در ابتدا تمامی
+\lr{transition}های
+\lr{DFA}
+را برعکس می‌کنیم و یک استیت جدید به اسم
+$q_s$
+اضافه می‌کنیم. سپس یک
+$\epsilon \text{transition}$
+بین
+$q_s$
+و تمامی
+\lr{finite state}های
+قبلی می‌کشیم. حال
+\lr{finite state}ها
+را از حالت
+\lr{accepting}
+در می‌آوریم و
+$q_0$
+\lr{DFA}
+اصلی را
+\lr{accepting}
+قرار می‌دهیم. با اینکار
+\lr{NFA}
+ماشینی که برعکس زبان را می‌پذیرد را تشکیل می‌دهیم.
+
+حال با این دانش مایشن تورینگ
+$M_L$
+را به صورت زیر تشکیل می‌دهیم:
+\begin{enumerate}
+    \item \lr{DFA}ای
+    طراحی کن که زبان برعکس
+    $D$
+    را بپذیرد.
+    \item دو \lr{DFA} را به $TM_{EQ_{DFA}}$ بده.
+    \item اگر جواب بله بود، بله برگردان در غیر این صورت خیر.
+\end{enumerate}
+\subsection{}
+% https://staffwww.dcs.shef.ac.uk/people/J.Marshall/alc/studyguides/Selected_Solutions_3.pdf
+کافی است که به ازای تمامی استیت‌های
+\lr{PDA}
+آنها را تنها
+\lr{accepting state}
+قرار دهیم و در صورتی که
+$E_{CFG}$
+آنرا قبول کرد، پس این حالت
+\lr{unreachable}
+است.
